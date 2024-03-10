@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const Chat = () => {
   const [prompt, setPrompt] = useState('');
@@ -70,7 +72,7 @@ const Chat = () => {
             {answer && (
               <>
                 <div className="font-medium leading-6 text-lg text-gray-900 pb-2">回答：</div>
-                <p className="mt-2 text-gray-700">{answer}</p>
+                <Markdown className="mt-2 text-gray-700" remarkPlugins={[remarkGfm]}>{answer}</Markdown>
               </>
             )}
           </>
