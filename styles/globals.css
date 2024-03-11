@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.mt-2 {
+  font-family: Arial, sans-serif;
+  color: #4a5568;
+}
+
+.mt-2 p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.mt-2 ol {
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.mt-2 li {
+  margin-bottom: 10px;
+}
+
+.mt-2 pre {
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  padding: 16px;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.mt-2 code {
+  background-color: #edf2f7;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.language-javascript {
+  background-color: #fefcbf;
+}
