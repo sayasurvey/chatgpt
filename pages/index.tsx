@@ -1,14 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const Chat = () => {
   const [prompt, setPrompt] = useState('');
-  const [answer, setAnswer] = useState('');
-
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [history, setHistory] = useState<{ prompt: string; answer: string }[]>([]);
 
   const generateAnswer = async () => {
     setIsLoading(true);
@@ -16,7 +15,9 @@ const Chat = () => {
 
     try {
       const res = await axios.post('/api/chatgpt', { prompt }, { timeout: 15000 });
-      setAnswer(res.data.text);
+      // 現在の質問と回答をhistoryに追加
+      setHistory(history.concat([{ prompt, answer: res.data.text }]));
+      setPrompt(''); // 質問を送信後、入力フィールドをクリア
     } catch (e: any) {
       if (e.code === 'ECONNABORTED') {
         setError('タイムアウト: 15秒以内に回答が返ってきませんでした。');
@@ -35,12 +36,19 @@ const Chat = () => {
           <h2 className="text-2xl font-bold leading-7 text-white">Next ChatBot</h2>
         </div>
       </div>
-      <div className="px-4">
+      <div className="px-4 py-5">
+        {isLoading && <div className="font-medium leading-6 text-lg text-indigo-700 pb-2">読み込み中...</div>}
+        {error && <div className="mt-4 text-red-500">{error}</div>}
+        {history.map((item, index) => (
+          <div key={index} className="mb-4">
+            <div className="font-medium leading-6 text-lg text-gray-900 pb-2">質問：</div>
+            <Markdown className="mt-2 text-gray-700" remarkPlugins={[remarkGfm]}>{item.prompt}</Markdown>
+            <div className="font-medium leading-6 text-lg text-gray-900 pb-2">回答：</div>
+            <Markdown className="mt-2 text-gray-700" remarkPlugins={[remarkGfm]}>{item.answer}</Markdown>
+          </div>
+        ))}
         <div className="py-8">
-          <label
-            htmlFor="email"
-            className="block font-medium leading-6 text-lg text-gray-900 pb-2"
-          >
+          <label htmlFor="question" className="block font-medium leading-6 text-lg text-gray-900 pb-2">
             質問フォーム：
           </label>
           <div className="mt-2">
@@ -64,19 +72,6 @@ const Chat = () => {
             質問する
           </button>
         </div>
-        {isLoading ? (
-          <div className="font-medium leading-6 text-lg text-indigo-700 pb-2">読み込み中...</div>
-        ) : (
-          <>
-            {error && <div className="mt-4 text-red-500">{error}</div>}
-            {answer && (
-              <>
-                <div className="font-medium leading-6 text-lg text-gray-900 pb-2">回答：</div>
-                <Markdown className="mt-2 text-gray-700" remarkPlugins={[remarkGfm]}>{answer}</Markdown>
-              </>
-            )}
-          </>
-        )}
       </div>
     </div>
   );
