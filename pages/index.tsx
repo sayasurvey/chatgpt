@@ -30,7 +30,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="mx-auto my-7 min-w-1/2 max-w-2xl px-4">
+    <div className="mx-auto my-7 min-w-1/2 max-w-5xl px-4">
       <div className="bg-gray-700 rounded-md md:flex md:items-center md:justify-between py-4 px-4">
         <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-bold leading-7 text-white">Next ChatBot</h2>
