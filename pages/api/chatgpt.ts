@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     // OpenAI API にプロンプトを送信して回答を生成
     const completionResponse = await openai.chat.completions.create({
-      model: "gpt-4-1106-preview",
+      model: "gpt-4o",
       messages: [{ role: "system", content: prompt }],
     });
 
